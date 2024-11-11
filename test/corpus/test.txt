@@ -1,0 +1,227 @@
+==================
+Module Declaration
+==================
+
+module MyModule {
+  
+};
+
+---
+
+(source_file
+  (module
+    name: (identifier)))
+
+==================
+Simple Struct
+==================
+
+struct Person {
+  1 optional string name;
+  2 require int age;
+};
+
+---
+
+(source_file
+  (struct
+    name: (identifier)
+    (struct_member
+      order: (number)
+      tag_modifier: (tag_modifier)
+      type: (basic_type)
+      name: (identifier))
+    (struct_member
+      order: (number)
+      tag_modifier: (tag_modifier)
+      type: (basic_type)
+      name: (identifier))))
+
+======================
+Struct With Default
+======================
+
+struct Config {
+  1 optional string host = "localhost";
+  2 require int port = 8080;
+};
+
+---
+
+(source_file
+  (struct
+    name: (identifier)
+    (struct_member
+      order: (number)
+      tag_modifier: (tag_modifier)
+      type: (basic_type)
+      name: (identifier)
+      default: (string))
+    (struct_member
+      order: (number)
+      tag_modifier: (tag_modifier)
+      type: (basic_type)
+      name: (identifier)
+      default: (number))))
+
+==================
+Interface
+==================
+
+interface UserService {
+  void ping();
+  bool login(string username, string password);
+  User getUser(int id);
+};
+
+---
+
+(source_file
+  (interface
+    name: (identifier)
+    (function
+      return_type: (basic_type)
+      name: (identifier))
+    (function
+      return_type: (basic_type)
+      name: (identifier)
+      (parameter_list
+        (parameter
+          type: (basic_type)
+          name: (identifier))
+        (parameter
+          type: (basic_type)
+          name: (identifier))))
+    (function
+      return_type: (custom_type
+        type_name: (identifier))
+      name: (identifier)
+      (parameter_list
+        (parameter
+          type: (basic_type)
+          name: (identifier))))))
+
+==================
+Enum Declaration
+==================
+
+enum Status {
+  OK = 0,
+  ERROR = 1,
+  PENDING,
+};
+
+---
+
+(source_file
+  (enum
+    name: (identifier)
+    (enum_member
+      name: (identifier)
+      value: (number))
+    (enum_member
+      name: (identifier)
+      value: (number))
+    (enum_member
+      name: (identifier))))
+
+==================
+Complex Types
+==================
+
+struct DataContainer {
+  1 optional vector<string> names;
+  2 require map<int, User> userMap;
+  3 optional UserType::SubType complex;
+};
+
+---
+
+(source_file
+  (struct
+    name: (identifier)
+    (struct_member
+      order: (number)
+      tag_modifier: (tag_modifier)
+      type: (vector_type
+        element_type: (basic_type))
+      name: (identifier))
+    (struct_member
+      order: (number)
+      tag_modifier: (tag_modifier)
+      type: (map_type
+        key_type: (basic_type)
+        value_type: (custom_type
+          type_name: (identifier)))
+      name: (identifier))
+    (struct_member
+      order: (number)
+      tag_modifier: (tag_modifier)
+      type: (custom_type
+        type_name: (identifier)
+        nested_type: (identifier))
+      name: (identifier))))
+
+==================
+Constants and Keys
+==================
+
+const int MAX_USERS = 1000;
+const string VERSION = "1.0.0";
+
+key [userId, groupId];
+
+---
+
+(source_file
+  (const
+    type: (basic_type)
+    name: (identifier)
+    value: (number))
+  (const
+    type: (basic_type)
+    name: (identifier)
+    value: (string))
+  (key
+    (identifier)
+    (identifier)))
+
+==================
+Comments
+==================
+
+// Single line comment
+module TestModule {
+  /* Multi-line
+     comment */
+  struct Test {
+    1 require int value;
+  };
+};
+
+---
+
+(source_file
+  (comment)
+  (module
+    name: (identifier)
+    (comment)
+    (struct
+      name: (identifier)
+      (struct_member
+        order: (number)
+        tag_modifier: (tag_modifier)
+        type: (basic_type)
+        name: (identifier)))))
+
+==================
+Include Statement
+==================
+
+#include "common.tars";
+
+---
+
+(source_file
+  (include
+    path: (string)))
