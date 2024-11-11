@@ -1,4 +1,4 @@
-module github.com/stool233/tree-sitter-tars.git
+module github.com/stool233/tree-sitter-tars
 
 go 1.22
 
